@@ -1,36 +1,54 @@
 <template>
   <v-app>
-
-    <s-header />
-
     <v-main>
+      <s-header />
+
       <router-view />
+
+      <s-footer />
     </v-main>
-
-    <s-footer />
-
   </v-app>
 </template>
 
 <script>
-  const sHeader = () => import("@/components/layout/sHeader.vue")
-  const sFooter = () => import("@/components/layout/sFooter.vue")
+// import axios from "axios";
 
-  export default {
-    name: "App",
+const sHeader = () => import("@/components/layout/sHeader.vue");
+const sFooter = () => import("@/components/layout/sFooter.vue");
 
-    components: {
-      sHeader,
-      sFooter
-    },
+export default {
+  name: "App",
 
-    data: () => ({
-      //
-    })
-  };
+  components: {
+    sHeader,
+    sFooter
+  },
 
+  data: () => ({
+    //
+  }),
+
+  mounted() {
+    // const options = {
+    //   method: "GET",
+    //   headers: { "X-Auth-Token": "314e96c919e54091997a566ae0fdc0fa" },
+    //   url: "https://api.football-data.org/v2/teams"
+    // };
+    // axios(options)
+    //   .then(({ data }) => {
+    //     console.log(data);
+    //   })
+    //   .catch(err => console.log(err));
+  }
+};
 </script>
 
 <style lang="scss">
+.v-progress-circular {
+  margin: auto 0;
+}
 
+.search-field {
+  flex: 0 !important;
+}
 </style>

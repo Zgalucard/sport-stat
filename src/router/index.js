@@ -13,26 +13,22 @@ const routes = [
   {
     path: "/leagueCalendar",
     name: "leagueCalendar",
-    component: () =>
-      import("../views/leagueCalendar.vue")
+    component: () => import("../views/leagueCalendar.vue")
   },
   {
     path: "/leagueList",
     name: "leagueList",
-    component: () =>
-      import("../views/leagueList.vue")
+    component: () => import("../views/leagueList.vue")
   },
   {
     path: "/teamCalendar",
     name: "teamCalendar",
-    component: () =>
-      import("../views/teamCalendar.vue")
+    component: () => import("../views/teamCalendar.vue")
   },
   {
     path: "/teamsList",
     name: "teamsList",
-    component: () =>
-      import("../views/teamsList.vue")
+    component: () => import("../views/teamsList.vue")
   }
 ];
 
