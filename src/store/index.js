@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axiosInstance from "@/api/index";
-import { TEAMS } from "@/api/routes";
+import { TEAMS, COMPETITIONS } from "@/api/routes";
 
 Vue.use(Vuex);
 
@@ -13,6 +13,9 @@ export default new Vuex.Store({
   mutations: {
     setTeams(state, teams) {
       state.teams = teams;
+    },
+    setCompetitions(state, teams) {
+      state.competitions = teams;
     }
   },
   actions: {
@@ -23,10 +26,18 @@ export default new Vuex.Store({
           commit("setTeams", data);
         })
         .catch(err => console.log(err));
-    }
+    },
+    fetchCompetitions({ commit }) {
+      return axiosInstance
+        .get(COMPETITIONS())
+        .then(({ data }) => {
+          commit("setCompetitions", data);
+        })
+        .catch(err => console.log(err));
+    },
   },
   getters: {
     getTeams: state => state.teams,
-    teams: state => state.teams.teams
+    getCompetitions: state => state.competitions
   }
 });

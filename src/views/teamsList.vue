@@ -1,5 +1,5 @@
 <template>
-  <div class="teams">
+  <div class="teams page">
     <h1>This is an teams list page</h1>
     <v-text-field
       v-model="searchField"
@@ -9,6 +9,7 @@
       outlined
       class="ml-3 search-field"
       prepend-inner-icon="mdi-magnify"
+      @input="inputSearchField"
     ></v-text-field>
     <v-progress-circular
       :width="10"
@@ -63,6 +64,12 @@ export default {
     searchField: ""
   }),
 
+  methods: {
+    inputSearchField(){
+      this.$router.replace({ query: { search: this.searchField } })
+    }
+  },
+
   computed: {
     teams() {
       return this.$store.getters.getTeams;
@@ -88,17 +95,16 @@ export default {
 
   created() {
     this.$store.dispatch("fetchTeams");
+  },
+
+  mounted() {
+    this.searchField = this.$route.query.search;
   }
 };
 </script>
 
 <style lang="scss">
 .teams {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
   &__card {
     height: 100%;
     display: flex !important;

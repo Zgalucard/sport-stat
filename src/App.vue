@@ -32,7 +32,7 @@ export default {
     // const options = {
     //   method: "GET",
     //   headers: { "X-Auth-Token": "314e96c919e54091997a566ae0fdc0fa" },
-    //   url: "https://api.football-data.org/v2/teams"
+    //   url: "https://api.football-data.org/v2/matches"
     // };
     // axios(options)
     //   .then(({ data }) => {
@@ -44,6 +44,13 @@ export default {
 </script>
 
 <style lang="scss">
+.page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .v-progress-circular {
   margin: auto 0;
 }

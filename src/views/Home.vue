@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home page">
     HOME PAGE ON THIS APP
   </div>
 </template>
