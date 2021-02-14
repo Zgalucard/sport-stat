@@ -32,7 +32,7 @@ export default {
     // const options = {
     //   method: "GET",
     //   headers: { "X-Auth-Token": "314e96c919e54091997a566ae0fdc0fa" },
-    //   url: "https://api.football-data.org/v2/matches"
+    //   url: "https://api.football-data.org/v2/competitions/2006"
     // };
     // axios(options)
     //   .then(({ data }) => {

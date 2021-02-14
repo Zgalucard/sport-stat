@@ -10,18 +10,18 @@ const routes = [
     name: "Home",
     component: Home
   },
-  {
-    path: "/leagueCalendar",
-    name: "leagueCalendar",
-    component: () => import("../views/leagueCalendar.vue")
-  },
+  // {
+  //   path: "/leagueCalendar/:id",
+  //   name: "leagueCalendar",
+  //   component: () => import("../views/leagueCalendar.vue")
+  // },
   {
     path: "/leagueList",
     name: "leagueList",
     component: () => import("../views/leagueList.vue")
   },
   {
-    path: "/teamCalendar",
+    path: "/teamCalendar/:id",
     name: "teamCalendar",
     component: () => import("../views/teamCalendar.vue")
   },

@@ -1,6 +1,6 @@
 <template>
   <div class="teams page">
-    <h1>This is an teams list page</h1>
+    <h1>TEAM LIST</h1>
     <v-text-field
       v-model="searchField"
       label="Search"
@@ -21,9 +21,12 @@
     <v-item-group v-else>
       <v-container>
         <v-row>
-          <!--          cols="12" lg="3" md="4" sm="6"-->
           <v-col v-for="team of searchInstance" :key="team.id">
-            <v-card class="mx-auto my-12 teams__card" max-width="374">
+            <v-card
+              class="mx-auto my-12 teams__card"
+              max-width="374"
+              @click="getTeam(team)"
+            >
               <v-img height="250" :src="team.crestUrl"></v-img>
               <v-card-title>{{ team.shortName }}</v-card-title>
               <v-card-text>
@@ -65,8 +68,11 @@ export default {
   }),
 
   methods: {
-    inputSearchField(){
-      this.$router.replace({ query: { search: this.searchField } })
+    inputSearchField() {
+      this.$router.replace({ query: { search: this.searchField } });
+    },
+    getTeam(team) {
+      this.$router.push({ name: "teamCalendar", params: { id: team.id } });
     }
   },
 

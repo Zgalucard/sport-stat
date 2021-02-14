@@ -45,24 +45,6 @@
               Список команд
             </router-link>
           </v-list-item>
-
-          <v-list-item>
-            <router-link
-              to="/leagueCalendar"
-              class="ma-2 header__link white--text"
-            >
-              Календарь лиги
-            </router-link>
-          </v-list-item>
-
-          <v-list-item>
-            <router-link
-              to="/teamCalendar"
-              class="ma-2 header__link white--text"
-            >
-              Календарь одной команды
-            </router-link>
-          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>

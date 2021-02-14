@@ -1,6 +1,6 @@
 <template>
-  <div class="league page">
-    <h1>This is an league list page</h1>
+  <div class="league page" v-resize="onResize">
+    <h1>LEAGUE LIST</h1>
     <v-text-field
       v-model="searchField"
       label="Search"
@@ -22,22 +22,22 @@
         <v-row>
           <v-list rounded>
             <v-subheader
-              >LEAGUE PLAN <v-spacer /> LEAGUE NAME <v-spacer /> LEAGUE
-              SEASON</v-subheader
+              ><span v-if="windowSize.x > 767">LEAGUE PLAN</span><v-spacer /> <span>LEAGUE NAME</span> <v-spacer /> <span v-if="windowSize.x > 767">LEAGUE SEASON</span></v-subheader
             >
             <v-list-item-group color="red">
               <v-list-item
                 v-for="competition of searchInstance"
                 :key="competition.id"
                 class="league__item"
+                @click="getLeague(competition)"
               >
-                <v-list-item-icon>{{ competition.plan }}</v-list-item-icon>
+                <v-list-item-icon v-if="windowSize.x > 767">{{ competition.plan }}</v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title
                     v-text="competition.name"
                   ></v-list-item-title>
                 </v-list-item-content>
-                <v-list-item-content>
+                <v-list-item-content v-if="windowSize.x > 767">
                   <v-list-item-title
                     class="league__season"
                     v-if="competition.currentSeason"
@@ -72,8 +72,26 @@ export default {
   },
 
   data: () => ({
-    searchField: ""
+    windowSize: {
+      x: 0,
+      y: 0,
+    },
+    searchField: "",
   }),
+
+  mounted() {
+    this.onResize();
+  },
+
+  methods: {
+    getLeague(league) {
+      console.log("API does not give data about one league", league);
+      // this.$router.push({ name: "leagueCalendar", params: { id: league.id } });
+    },
+    onResize() {
+      this.windowSize = { x: window.innerWidth, y: window.innerHeight };
+    },
+  },
 
   computed: {
     competitions() {
@@ -84,8 +102,8 @@ export default {
       if (!this.searchField) {
         return this.competitions.competitions;
       } else {
-        return this.competitions.competitions.filter(item => {
-          return Object.keys(item).find(key => {
+        return this.competitions.competitions.filter((item) => {
+          return Object.keys(item).find((key) => {
             if (typeof item[key] === "string") {
               return item[key]
                 .toLowerCase()
@@ -95,12 +113,12 @@ export default {
           });
         });
       }
-    }
+    },
   },
 
   created() {
     this.$store.dispatch("fetchCompetitions");
-  }
+  },
 };
 </script>
 
