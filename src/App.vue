@@ -32,7 +32,7 @@ export default {
   align-items: center;
 }
 
-.v-main{
+.v-main {
   padding: 0 10px;
 }
 
@@ -44,7 +44,7 @@ export default {
   flex: 0 !important;
 }
 
-.v-input{
+.v-input {
   flex: 0 !important;
 }
 </style>

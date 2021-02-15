@@ -1,7 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axiosInstance from "@/api/index";
-import { TEAMS, COMPETITIONS, TEAM_BY_ID, TEAM_MATCHES, COMPETITIONS_BY_ID } from "@/api/routes";
+import {
+  TEAMS,
+  COMPETITIONS,
+  TEAM_BY_ID,
+  TEAM_MATCHES,
+  COMPETITIONS_BY_ID
+} from "@/api/routes";
 
 Vue.use(Vuex);
 

@@ -30,7 +30,9 @@
         <v-row>
           <v-list rounded>
             <v-subheader
-              ><span v-if="windowSize.x > 767">LEAGUE PLAN</span><v-spacer /> <span>LEAGUE NAME</span> <v-spacer /> <span v-if="windowSize.x > 767">LEAGUE SEASON</span></v-subheader
+              ><span v-if="windowSize.x > 767">LEAGUE PLAN</span><v-spacer />
+              <span>LEAGUE NAME</span> <v-spacer />
+              <span v-if="windowSize.x > 767">LEAGUE SEASON</span></v-subheader
             >
             <v-list-item-group color="red">
               <v-list-item
@@ -39,7 +41,9 @@
                 class="league__item"
                 @click="getLeague(competition)"
               >
-                <v-list-item-icon v-if="windowSize.x > 767">{{ competition.plan }}</v-list-item-icon>
+                <v-list-item-icon v-if="windowSize.x > 767">{{
+                  competition.plan
+                }}</v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title
                     v-text="competition.name"
@@ -82,17 +86,10 @@ export default {
   data: () => ({
     windowSize: {
       x: 0,
-      y: 0,
+      y: 0
     },
     searchField: "",
-    years: [
-      "Выбрать год",
-      2017,
-      2018,
-      2019,
-      2020,
-      2021,
-    ],
+    years: ["Выбрать год", 2017, 2018, 2019, 2020, 2021],
     selectYear: "Выбрать год"
   }),
 
@@ -103,11 +100,15 @@ export default {
   },
 
   methods: {
-    changeYear(){
-      this.$router.replace({ query: { search: this.searchField, year: String(this.selectYear) } });
+    changeYear() {
+      this.$router.replace({
+        query: { search: this.searchField, year: String(this.selectYear) }
+      });
     },
     inputSearchField() {
-      this.$router.replace({ query: { search: this.searchField, year: String(this.selectYear) } });
+      this.$router.replace({
+        query: { search: this.searchField, year: String(this.selectYear) }
+      });
     },
     getLeague(league) {
       console.log("API does not give data about one league", league);
@@ -115,7 +116,7 @@ export default {
     },
     onResize() {
       this.windowSize = { x: window.innerWidth, y: window.innerHeight };
-    },
+    }
   },
 
   computed: {
@@ -127,8 +128,8 @@ export default {
       if (!this.searchField) {
         return this.competitions.competitions;
       } else {
-        return this.competitions.competitions.filter((item) => {
-          return Object.keys(item).find((key) => {
+        return this.competitions.competitions.filter(item => {
+          return Object.keys(item).find(key => {
             if (typeof item[key] === "string") {
               return item[key]
                 .toLowerCase()
@@ -140,28 +141,31 @@ export default {
       }
     },
 
-    leagueList(){
-      if(typeof(this.selectYear) === "number") {
+    leagueList() {
+      if (typeof this.selectYear === "number") {
         return this.searchInstance.filter(instance => {
-      if(instance.currentSeason){
-        let startDate = new Date(instance.currentSeason.startDate);
-        let endDate = new Date(instance.currentSeason.endDate);
-        let startYear = startDate.getFullYear();
-        let endYear = endDate.getFullYear();
+          if (instance.currentSeason) {
+            let startDate = new Date(instance.currentSeason.startDate);
+            let endDate = new Date(instance.currentSeason.endDate);
+            let startYear = startDate.getFullYear();
+            let endYear = endDate.getFullYear();
 
-        return Number(startYear) === this.selectYear || Number(endYear) === this.selectYear
-        }
-        return instance
-      })
+            return (
+              Number(startYear) === this.selectYear ||
+              Number(endYear) === this.selectYear
+            );
+          }
+          return instance;
+        });
       } else {
-        return this.searchInstance
+        return this.searchInstance;
       }
     }
   },
 
   created() {
     this.$store.dispatch("fetchCompetitions");
-  },
+  }
 };
 </script>
 

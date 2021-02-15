@@ -171,19 +171,17 @@ export default {
 
   methods: {
     inputSearch() {
-      this.$router.replace(
-        {
-          query: {
-            startYear: this.search.startYear,
-            startMonth: this.search.startMonth,
-            startDay: this.search.startDay,
-            endYear: this.search.endYear,
-            endMonth: this.search.endMonth,
-            endDay: this.search.endDay
-          }
+      this.$router.replace({
+        query: {
+          startYear: this.search.startYear,
+          startMonth: this.search.startMonth,
+          startDay: this.search.startDay,
+          endYear: this.search.endYear,
+          endMonth: this.search.endMonth,
+          endDay: this.search.endDay
         }
-      );
-    },
+      });
+    }
   },
 
   computed: {
@@ -198,7 +196,7 @@ export default {
         this.search.endMonth.trim().length &&
         this.search.endDay.trim().length
       ) {
-        this.matches.forEach((match) => {
+        this.matches.forEach(match => {
           let startDate = new Date(match.season.startDate);
           let startDay = startDate.getDate();
           let startMonth = startDate.getMonth() + 1;
@@ -223,7 +221,7 @@ export default {
       } else {
         return this.matches;
       }
-    },
+    }
   },
 
   async created() {
@@ -245,7 +243,7 @@ export default {
     } catch (err) {
       console.log(err);
     }
-  },
+  }
 };
 </script>
 
