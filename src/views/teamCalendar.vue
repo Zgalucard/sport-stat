@@ -4,12 +4,8 @@
     <v-simple-table dark v-if="team">
       <thead>
         <tr>
-          <th class="text-left">
-            Name
-          </th>
-          <th class="text-left">
-            Info
-          </th>
+          <th class="text-left">Name</th>
+          <th class="text-left">Info</th>
         </tr>
       </thead>
       <tbody>
@@ -54,66 +50,71 @@
       </tbody>
     </v-simple-table>
 
-<div>
     <div>
-      <v-text-field
-        v-model="search.startYear"
-        label="year"
-        clearable
-        filled
-        outlined
-        class="ml-3 search-field"
-      ></v-text-field>
-      <v-text-field
-        v-model="search.startMonth"
-        label="month"
-        clearable
-        filled
-        outlined
-        class="ml-3 search-field"
-      ></v-text-field>
-      <v-text-field
-        v-model="search.startDay"
-        label="day"
-        clearable
-        filled
-        outlined
-        class="ml-3 search-field"
-      ></v-text-field>
+      <h2>Фильтровать по дате</h2>
+      <div class="teams__filter">
+        <div class="teams__inputs">
+          <span>От</span>
+          <v-text-field
+            v-model="search.startYear"
+            label="year"
+            filled
+            outlined
+            class="ml-3 search-field"
+            @input="inputSearch"
+          ></v-text-field>
+          <v-text-field
+            v-model="search.startMonth"
+            label="month"
+            filled
+            outlined
+            class="ml-3 search-field"
+            @input="inputSearch"
+          ></v-text-field>
+          <v-text-field
+            v-model="search.startDay"
+            label="day"
+            filled
+            outlined
+            class="ml-3 search-field"
+            @input="inputSearch"
+          ></v-text-field>
+        </div>
+        <div class="teams__inputs">
+          <span>До</span>
+          <v-text-field
+            v-model="search.endYear"
+            label="year"
+            filled
+            outlined
+            class="ml-3 search-field"
+            @input="inputSearch"
+          ></v-text-field>
+          <v-text-field
+            v-model="search.endMonth"
+            label="month"
+            filled
+            outlined
+            class="ml-3 search-field"
+            @input="inputSearch"
+          ></v-text-field>
+          <v-text-field
+            v-model="search.endDay"
+            label="day"
+            filled
+            outlined
+            class="ml-3 search-field"
+            @input="inputSearch"
+          ></v-text-field>
+        </div>
+      </div>
     </div>
-    <div>
-      <v-text-field
-        v-model="search.endYear"
-        label="year"
-        clearable
-        filled
-        outlined
-        class="ml-3 search-field"
-      ></v-text-field>
-      <v-text-field
-        v-model="search.endMonth"
-        label="month"
-        clearable
-        filled
-        outlined
-        class="ml-3 search-field"
-      ></v-text-field>
-      <v-text-field
-        v-model="search.endDay"
-        label="day"
-        clearable
-        filled
-        outlined
-        class="ml-3 search-field"
-      ></v-text-field>
-    </div>
-</div>
 
     <v-item-group>
       <v-container>
         <v-row>
           <v-col
-            v-for="match in matches"
+            v-for="match in dateFilter"
             :key="match.id"
             cols="12"
             lg="3"
@@ -157,6 +158,7 @@ export default {
   data: () => ({
     team: null,
     matches: null,
+    filteredMatches: [],
     search: {
       startYear: "",
       startMonth: "",
@@ -168,26 +170,60 @@ export default {
   }),
 
   methods: {
-    //
+    inputSearch() {
+      this.$router.replace(
+        {
+          query: {
+            startYear: this.search.startYear,
+            startMonth: this.search.startMonth,
+            startDay: this.search.startDay,
+            endYear: this.search.endYear,
+            endMonth: this.search.endMonth,
+            endDay: this.search.endDay
+          }
+        }
+      );
+    },
   },
 
   computed: {
-    dateFilter(){
-      return this.matches.filter(match => {
-        let startDate = new Date(match.season.startDate)
-        let startDay = startDate.getDate();
-        let startMonth = startDate.getMonth() + 1;
-        let startYear = startDate.getFullYear();
-        let endDate = new Date(match.season.startDate)
-        let endDay = endDate.getDate();
-        let endMonth = endDate.getMonth() + 1;
-        let endYear = endDate.getFullYear();
+    dateFilter() {
+      //eslint-disable-next-line
+      this.filteredMatches = [];
+      if (
+        this.search.startYear.trim().length &&
+        this.search.startMonth.trim().length &&
+        this.search.startDay.trim().length &&
+        this.search.endYear.trim().length &&
+        this.search.endMonth.trim().length &&
+        this.search.endDay.trim().length
+      ) {
+        this.matches.forEach((match) => {
+          let startDate = new Date(match.season.startDate);
+          let startDay = startDate.getDate();
+          let startMonth = startDate.getMonth() + 1;
+          let startYear = startDate.getFullYear();
+          let endDate = new Date(match.season.endDate);
+          let endDay = endDate.getDate();
+          let endMonth = endDate.getMonth() + 1;
+          let endYear = endDate.getFullYear();
 
-          if(startDay >= this.search.startDay && startMonth >= this.search.startMonth && startYear >= this.search.startYear && endDay <= this.search.endDay && endMonth <= this.search.endMonth && endYear <= this.search.endYear) {
-            return match
+          if (
+            startDay <= Number(this.search.startDay) &&
+            startMonth <= Number(this.search.startMonth) &&
+            startYear <= Number(this.search.startYear) &&
+            endDay >= Number(this.search.endDay) &&
+            endMonth >= Number(this.search.endMonth) &&
+            endYear >= Number(this.search.endYear)
+          ) {
+            this.filteredMatches.push(match);
           }
-      })
-    }
+        });
+        return this.filteredMatches;
+      } else {
+        return this.matches;
+      }
+    },
   },
 
   async created() {
@@ -198,16 +234,34 @@ export default {
         this.team = data;
         const matches = await this.$store.dispatch("fetchTeamMatches", id);
         this.matches = matches.data.matches;
+
+        this.search.startYear = this.$route.query.startYear || "";
+        this.search.startMonth = this.$route.query.startMonth || "";
+        this.search.startDay = this.$route.query.startDay || "";
+        this.search.endYear = this.$route.query.endYear || "";
+        this.search.endMonth = this.$route.query.endMonth || "";
+        this.search.endDay = this.$route.query.endDay || "";
       }
     } catch (err) {
       console.log(err);
     }
-  }
+  },
 };
 </script>
 
 <style lang="scss">
-  table{
-    img{ width: 100%; }
+table {
+  img {
+    width: 100%;
   }
+}
+
+.teams {
+  &__filter {
+    display: flex;
+  }
+  &__inputs {
+    text-align: center;
+  }
+}
 </style>

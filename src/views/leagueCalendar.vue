@@ -1,6 +1,7 @@
 <template>
   <div class="league page">
     <h1>LEAGUE</h1>
+    <p>API does not give data about one league</p>
     <div v-if="league">
       {{ league }}
     </div>

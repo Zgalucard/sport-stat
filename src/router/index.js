@@ -10,11 +10,11 @@ const routes = [
     name: "Home",
     component: Home
   },
-  // {
-  //   path: "/leagueCalendar/:id",
-  //   name: "leagueCalendar",
-  //   component: () => import("../views/leagueCalendar.vue")
-  // },
+  {
+    path: "/leagueCalendar/:id",
+    name: "leagueCalendar",
+    component: () => import("../views/leagueCalendar.vue")
+  },
   {
     path: "/leagueList",
     name: "leagueList",

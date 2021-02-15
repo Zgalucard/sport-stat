@@ -59,10 +59,6 @@
 export default {
   name: "teamList",
 
-  components: {
-    //
-  },
-
   data: () => ({
     searchField: ""
   }),

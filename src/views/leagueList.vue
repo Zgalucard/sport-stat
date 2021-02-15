@@ -9,7 +9,15 @@
       outlined
       class="ml-3 search-field"
       prepend-inner-icon="mdi-magnify"
+      @input="inputSearchField"
     ></v-text-field>
+    <v-select
+      :items="years"
+      label="Years"
+      outlined
+      v-model="selectYear"
+      @change="changeYear"
+    ></v-select>
     <v-progress-circular
       :width="10"
       color="deep-orange"
@@ -26,7 +34,7 @@
             >
             <v-list-item-group color="red">
               <v-list-item
-                v-for="competition of searchInstance"
+                v-for="competition of leagueList"
                 :key="competition.id"
                 class="league__item"
                 @click="getLeague(competition)"
@@ -77,16 +85,33 @@ export default {
       y: 0,
     },
     searchField: "",
+    years: [
+      "Выбрать год",
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+    ],
+    selectYear: "Выбрать год"
   }),
 
   mounted() {
     this.onResize();
+    this.searchField = this.$route.query.search;
+    this.selectYear = Number(this.$route.query.year) || this.years[0];
   },
 
   methods: {
+    changeYear(){
+      this.$router.replace({ query: { search: this.searchField, year: String(this.selectYear) } });
+    },
+    inputSearchField() {
+      this.$router.replace({ query: { search: this.searchField, year: String(this.selectYear) } });
+    },
     getLeague(league) {
       console.log("API does not give data about one league", league);
-      // this.$router.push({ name: "leagueCalendar", params: { id: league.id } });
+      this.$router.push({ name: "leagueCalendar", params: { id: league.id } });
     },
     onResize() {
       this.windowSize = { x: window.innerWidth, y: window.innerHeight };
@@ -114,6 +139,24 @@ export default {
         });
       }
     },
+
+    leagueList(){
+      if(typeof(this.selectYear) === "number") {
+        return this.searchInstance.filter(instance => {
+      if(instance.currentSeason){
+        let startDate = new Date(instance.currentSeason.startDate);
+        let endDate = new Date(instance.currentSeason.endDate);
+        let startYear = startDate.getFullYear();
+        let endYear = endDate.getFullYear();
+
+        return Number(startYear) === this.selectYear || Number(endYear) === this.selectYear
+        }
+        return instance
+      })
+      } else {
+        return this.searchInstance
+      }
+    }
   },
 
   created() {
